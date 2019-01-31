@@ -1,0 +1,5 @@
+{
+    "require": {
+        "fabulator/endomondo-api": "^1.1"
+    }
+}
