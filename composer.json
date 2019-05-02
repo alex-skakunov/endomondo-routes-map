@@ -1,5 +1,6 @@
 {
     "require": {
-        "fabulator/endomondo-api": "^1.1"
+        "fabulator/endomondo-api": "^1.1",
+        "facebook/graph-sdk": "^5.7"
     }
 }
