@@ -1,6 +1,7 @@
 {
     "require": {
         "fabulator/endomondo-api": "^1.1",
-        "facebook/graph-sdk": "^5.7"
+        "facebook/graph-sdk": "^5.7",
+        "google/photos-library": "^1.3"
     }
 }
