@@ -1,367 +1,387 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-    <meta charset="utf-8" />
-    <title>Simple Polylines</title>
-    <style>
-      /* Always set the map height explicitly to define the size of the div
+
+<head>
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+  <meta charset="utf-8" />
+  <title>Simple Polylines</title>
+  <style>
+    /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
-      #map {
-        height: 100%;
-      }
-      /* Optional: Makes the sample page fill the window. */
-      html,
-      body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-    </style>
-    <script src="points.js"></script>
-  </head>
-  <body>
-    <div id="map"></div>
-    <script>
-      function initMap() {
-        var points = getPoints();
-        map = new google.maps.Map(document.getElementById("map"), {
-          zoom: 12,
-          center: { lat: 49.85, lng: 24 },
-          mapTypeId: "terrain",
-          styles: [
-            {
-              elementType: "geometry",
-              stylers: [
-                {
-                  color: "#212121"
-                }
-              ]
-            },
-            {
-              elementType: "labels.icon",
-              stylers: [
-                {
-                  visibility: "off"
-                }
-              ]
-            },
-            {
-              elementType: "labels.text.fill",
-              stylers: [
-                {
-                  color: "#757575"
-                }
-              ]
-            },
-            {
-              elementType: "labels.text.stroke",
-              stylers: [
-                {
-                  color: "#212121"
-                }
-              ]
-            },
-            {
-              featureType: "administrative",
-              elementType: "geometry",
-              stylers: [
-                {
-                  color: "#757575"
-                }
-              ]
-            },
-            {
-              featureType: "administrative.country",
-              elementType: "labels.text.fill",
-              stylers: [
-                {
-                  color: "#9e9e9e"
-                }
-              ]
-            },
-            {
-              featureType: "administrative.land_parcel",
-              stylers: [
-                {
-                  visibility: "off"
-                }
-              ]
-            },
-            {
-              featureType: "administrative.locality",
-              elementType: "labels.text.fill",
-              stylers: [
-                {
-                  color: "#bdbdbd"
-                }
-              ]
-            },
-            {
-              featureType: "administrative.neighborhood",
-              stylers: [
-                {
-                  visibility: "off"
-                }
-              ]
-            },
-            {
-              featureType: "poi",
-              elementType: "labels.text",
-              stylers: [
-                {
-                  visibility: "off"
-                }
-              ]
-            },
-            {
-              featureType: "poi",
-              elementType: "labels.text.fill",
-              stylers: [
-                {
-                  color: "#757575"
-                }
-              ]
-            },
-            {
-              featureType: "poi.business",
-              stylers: [
-                {
-                  visibility: "off"
-                }
-              ]
-            },
-            {
-              featureType: "poi.park",
-              elementType: "geometry",
-              stylers: [
-                {
-                  color: "#181818"
-                }
-              ]
-            },
-            {
-              featureType: "poi.park",
-              elementType: "labels.text.fill",
-              stylers: [
-                {
-                  color: "#616161"
-                }
-              ]
-            },
-            {
-              featureType: "poi.park",
-              elementType: "labels.text.stroke",
-              stylers: [
-                {
-                  color: "#1b1b1b"
-                }
-              ]
-            },
-            {
-              featureType: "road",
-              elementType: "geometry.fill",
-              stylers: [
-                {
-                  color: "#2c2c2c"
-                }
-              ]
-            },
-            {
-              featureType: "road",
-              elementType: "labels",
-              stylers: [
-                {
-                  visibility: "off"
-                }
-              ]
-            },
-            {
-              featureType: "road",
-              elementType: "labels.icon",
-              stylers: [
-                {
-                  visibility: "off"
-                }
-              ]
-            },
-            {
-              featureType: "road",
-              elementType: "labels.text.fill",
-              stylers: [
-                {
-                  color: "#8a8a8a"
-                }
-              ]
-            },
-            {
-              featureType: "road.arterial",
-              stylers: [
-                {
-                  visibility: "off"
-                }
-              ]
-            },
-            {
-              featureType: "road.arterial",
-              elementType: "geometry",
-              stylers: [
-                {
-                  color: "#373737"
-                }
-              ]
-            },
-            {
-              featureType: "road.highway",
-              elementType: "geometry",
-              stylers: [
-                {
-                  color: "#3c3c3c"
-                }
-              ]
-            },
-            {
-              featureType: "road.highway",
-              elementType: "labels",
-              stylers: [
-                {
-                  visibility: "off"
-                }
-              ]
-            },
-            {
-              featureType: "road.highway.controlled_access",
-              elementType: "geometry",
-              stylers: [
-                {
-                  color: "#4e4e4e"
-                }
-              ]
-            },
-            {
-              featureType: "road.local",
-              stylers: [
-                {
-                  visibility: "off"
-                }
-              ]
-            },
-            {
-              featureType: "road.local",
-              elementType: "labels.text.fill",
-              stylers: [
-                {
-                  color: "#616161"
-                }
-              ]
-            },
-            {
-              featureType: "transit",
-              stylers: [
-                {
-                  visibility: "off"
-                }
-              ]
-            },
-            {
-              featureType: "transit",
-              elementType: "labels.text.fill",
-              stylers: [
-                {
-                  color: "#757575"
-                }
-              ]
-            },
-            {
-              featureType: "water",
-              elementType: "geometry",
-              stylers: [
-                {
-                  color: "#000000"
-                }
-              ]
-            },
-            {
-              featureType: "water",
-              elementType: "labels.text",
-              stylers: [
-                {
-                  visibility: "off"
-                }
-              ]
-            },
-            {
-              featureType: "water",
-              elementType: "labels.text.fill",
-              stylers: [
-                {
-                  color: "#3d3d3d"
-                }
-              ]
-            }
-          ]
+    #map {
+      height: 100%;
+    }
+
+    /* Optional: Makes the sample page fill the window. */
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+  <script src="points.js"></script>
+  <script src="points_facebook.js"></script>
+</head>
+
+<body>
+  <div id="map"></div>
+  <script>
+    var locations = {
+      'lviv': { lat: 49.8333, lng: 24 },
+      'sevastopol': { lat: 44.55, lng: 33.35 }
+    };
+    function initMap() {
+      var points = getPoints();
+      var fbPoints = getFBPoints();
+      map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 5,
+        center: locations['lviv'],
+        mapTypeId: "terrain",
+        styles: [
+          {
+            elementType: "geometry",
+            stylers: [
+              {
+                color: "#212121"
+              }
+            ]
+          },
+          {
+            elementType: "labels.icon",
+            stylers: [
+              {
+                visibility: "off"
+              }
+            ]
+          },
+          {
+            elementType: "labels.text.fill",
+            stylers: [
+              {
+                color: "#757575"
+              }
+            ]
+          },
+          {
+            elementType: "labels.text.stroke",
+            stylers: [
+              {
+                color: "#212121"
+              }
+            ]
+          },
+          {
+            featureType: "administrative",
+            elementType: "geometry",
+            stylers: [
+              {
+                color: "#757575"
+              }
+            ]
+          },
+          {
+            featureType: "administrative.country",
+            elementType: "labels.text.fill",
+            stylers: [
+              {
+                color: "#9e9e9e"
+              }
+            ]
+          },
+          {
+            featureType: "administrative.land_parcel",
+            stylers: [
+              {
+                visibility: "off"
+              }
+            ]
+          },
+          {
+            featureType: "administrative.locality",
+            elementType: "labels.text.fill",
+            stylers: [
+              {
+                color: "#bdbdbd"
+              }
+            ]
+          },
+          {
+            featureType: "administrative.neighborhood",
+            stylers: [
+              {
+                visibility: "off"
+              }
+            ]
+          },
+          {
+            featureType: "poi",
+            elementType: "labels.text",
+            stylers: [
+              {
+                visibility: "off"
+              }
+            ]
+          },
+          {
+            featureType: "poi",
+            elementType: "labels.text.fill",
+            stylers: [
+              {
+                color: "#757575"
+              }
+            ]
+          },
+          {
+            featureType: "poi.business",
+            stylers: [
+              {
+                visibility: "off"
+              }
+            ]
+          },
+          {
+            featureType: "poi.park",
+            elementType: "geometry",
+            stylers: [
+              {
+                color: "#181818"
+              }
+            ]
+          },
+          {
+            featureType: "poi.park",
+            elementType: "labels.text.fill",
+            stylers: [
+              {
+                color: "#616161"
+              }
+            ]
+          },
+          {
+            featureType: "poi.park",
+            elementType: "labels.text.stroke",
+            stylers: [
+              {
+                color: "#1b1b1b"
+              }
+            ]
+          },
+          {
+            featureType: "road",
+            elementType: "geometry.fill",
+            stylers: [
+              {
+                color: "#2c2c2c"
+              }
+            ]
+          },
+          {
+            featureType: "road",
+            elementType: "labels",
+            stylers: [
+              {
+                visibility: "off"
+              }
+            ]
+          },
+          {
+            featureType: "road",
+            elementType: "labels.icon",
+            stylers: [
+              {
+                visibility: "off"
+              }
+            ]
+          },
+          {
+            featureType: "road",
+            elementType: "labels.text.fill",
+            stylers: [
+              {
+                color: "#8a8a8a"
+              }
+            ]
+          },
+          {
+            featureType: "road.arterial",
+            stylers: [
+              {
+                visibility: "off"
+              }
+            ]
+          },
+          {
+            featureType: "road.arterial",
+            elementType: "geometry",
+            stylers: [
+              {
+                color: "#373737"
+              }
+            ]
+          },
+          {
+            featureType: "road.highway",
+            elementType: "geometry",
+            stylers: [
+              {
+                color: "#3c3c3c"
+              }
+            ]
+          },
+          {
+            featureType: "road.highway",
+            elementType: "labels",
+            stylers: [
+              {
+                visibility: "off"
+              }
+            ]
+          },
+          {
+            featureType: "road.highway.controlled_access",
+            elementType: "geometry",
+            stylers: [
+              {
+                color: "#4e4e4e"
+              }
+            ]
+          },
+          {
+            featureType: "road.local",
+            stylers: [
+              {
+                visibility: "off"
+              }
+            ]
+          },
+          {
+            featureType: "road.local",
+            elementType: "labels.text.fill",
+            stylers: [
+              {
+                color: "#616161"
+              }
+            ]
+          },
+          {
+            featureType: "transit",
+            stylers: [
+              {
+                visibility: "off"
+              }
+            ]
+          },
+          {
+            featureType: "transit",
+            elementType: "labels.text.fill",
+            stylers: [
+              {
+                color: "#757575"
+              }
+            ]
+          },
+          {
+            featureType: "water",
+            elementType: "geometry",
+            stylers: [
+              {
+                color: "#000000"
+              }
+            ]
+          },
+          {
+            featureType: "water",
+            elementType: "labels.text",
+            stylers: [
+              {
+                visibility: "off"
+              }
+            ]
+          },
+          {
+            featureType: "water",
+            elementType: "labels.text.fill",
+            stylers: [
+              {
+                color: "#3d3d3d"
+              }
+            ]
+          }
+        ]
+      });
+
+      for (var id in points) {
+        var flightPath = new google.maps.Polyline({
+          path: points[id],
+          geodesic: true,
+          strokeColor: "#FFFFFF",
+          strokeOpacity: 0.4,
+          strokeWeight: 6
         });
-
-        for (var id in points) {
-          var flightPath = new google.maps.Polyline({
-            path: points[id],
-            geodesic: true,
-            strokeColor: "#FFFFFF",
-            strokeOpacity: 0.4,
-            strokeWeight: 6
-          });
-          var flightPath2 = new google.maps.Polyline({
-            path: points[id],
-            geodesic: true,
-            strokeColor: "#FFFFFF",
-            strokeOpacity: 0.25,
-            strokeWeight: 10
-          });
-          flightPath.setMap(map);
-          flightPath2.setMap(map);
-        }
+        var flightPath2 = new google.maps.Polyline({
+          path: points[id],
+          geodesic: true,
+          strokeColor: "#FFFFFF",
+          strokeOpacity: 0.25,
+          strokeWeight: 10
+        });
+        // flightPath.setMap(map);
+        // flightPath2.setMap(map);
       }
 
-      function _obsolete_generateHeatmap() {
-        // don't forget to add "&libraries=visualization" to the maps URL
-        // var pointsList = [];
-        // for (var id in points) {
-        //   var routePointsList = points[id];
-        //   for (var i in routePointsList) {
-        //     var pointRecord = routePointsList[i];
-        //     var googleMapsPoint = new google.maps.LatLng(pointRecord.lat, pointRecord.lng);
-        //     pointsList.push(googleMapsPoint);
-        //   }
-        // }
-        // heatmap = new google.maps.visualization.HeatmapLayer({
-        //   data: pointsList,
-        //   map: map,
-        //   radius: 30,
-        //   maxIntensity: 500,
-        //   opacity: 0.9,
-        //   gradient: [
-        //     "rgba(0, 255, 255, 0)",
-        //     "rgba(0, 255, 255, 1)",
-        //     "rgba(0, 191, 255, 1)",
-        //     "rgba(0, 127, 255, 1)",
-        //     "rgba(0, 63, 255, 1)",
-        //     "rgba(0, 0, 255, 1)",
-        //     "rgba(0, 0, 223, 1)",
-        //     "rgba(0, 0, 191, 1)",
-        //     "rgba(0, 0, 159, 1)",
-        //     "rgba(0, 0, 127, 1)",
-        //     "rgba(63, 0, 91, 1)",
-        //     "rgba(127, 0, 63, 1)",
-        //     "rgba(191, 0, 31, 1)",
-        //     "rgba(255, 0, 0, 1)"
-        //   ]
-        // });
+      for (var id in fbPoints) {
+        var point1 = new google.maps.Circle({
+          strokeColor: "#FFFFFF",
+          strokeOpacity: 0.9,
+          strokeWeight: 6,
+          fillColor: '#FFFFFF',
+          fillOpacity: 0.6,
+          center: fbPoints[id],
+          radius: 100,
+          map: map
+        });
       }
-    </script>
-    <script
-      async
-      defer
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDpbIPsxVYfSiuyMuUqmg0Gb5ffVNX3ZFQ&callback=initMap"
-    ></script>
-  </body>
+    }
+
+    function _obsolete_generateHeatmap() {
+      // don't forget to add "&libraries=visualization" to the maps URL
+      // var pointsList = [];
+      // for (var id in points) {
+      //   var routePointsList = points[id];
+      //   for (var i in routePointsList) {
+      //     var pointRecord = routePointsList[i];
+      //     var googleMapsPoint = new google.maps.LatLng(pointRecord.lat, pointRecord.lng);
+      //     pointsList.push(googleMapsPoint);
+      //   }
+      // }
+      // heatmap = new google.maps.visualization.HeatmapLayer({
+      //   data: pointsList,
+      //   map: map,
+      //   radius: 30,
+      //   maxIntensity: 500,
+      //   opacity: 0.9,
+      //   gradient: [
+      //     "rgba(0, 255, 255, 0)",
+      //     "rgba(0, 255, 255, 1)",
+      //     "rgba(0, 191, 255, 1)",
+      //     "rgba(0, 127, 255, 1)",
+      //     "rgba(0, 63, 255, 1)",
+      //     "rgba(0, 0, 255, 1)",
+      //     "rgba(0, 0, 223, 1)",
+      //     "rgba(0, 0, 191, 1)",
+      //     "rgba(0, 0, 159, 1)",
+      //     "rgba(0, 0, 127, 1)",
+      //     "rgba(63, 0, 91, 1)",
+      //     "rgba(127, 0, 63, 1)",
+      //     "rgba(191, 0, 31, 1)",
+      //     "rgba(255, 0, 0, 1)"
+      //   ]
+      // });
+    }
+  </script>
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDpbIPsxVYfSiuyMuUqmg0Gb5ffVNX3ZFQ&callback=initMap"></script>
+</body>
+
 </html>
