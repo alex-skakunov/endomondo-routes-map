@@ -35,7 +35,7 @@
       var points = getPoints();
       var fbPoints = getFBPoints();
       map = new google.maps.Map(document.getElementById("map"), {
-        zoom: 5,
+        zoom: 5 + 4,
         center: locations['lviv'],
         mapTypeId: "terrain",
         styles: [
@@ -326,8 +326,8 @@
           strokeOpacity: 0.25,
           strokeWeight: 10
         });
-        // flightPath.setMap(map);
-        // flightPath2.setMap(map);
+        flightPath.setMap(map);
+        flightPath2.setMap(map);
       }
 
       for (var id in fbPoints) {
